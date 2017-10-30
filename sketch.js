@@ -1,10 +1,12 @@
 var ball1;
+var ball2;
 
 function setup() {
  createCanvas(600, 400);
 //ball= new ball();
 
 ball1= new DropBall(100, 20);// start ball at 100, with size of 20 pixels
+ball2= new DropBall(500,50);
 }
 
 function draw() {
@@ -13,6 +15,8 @@ background (155);
     drawScale();
     ball1.move();
     ball1.display();
+    ball2.move();
+    ball2.display();
     print (this.y);
     //this.y++;
    //ball.move();
@@ -54,6 +58,13 @@ this.display= function(){
     fill (255, 140, 101);//fill coral
     ellipse(this.x, this.y, this.diameter, this.diameter);// display an ellipse of x, y, and diameter. wasted 2 hours on code because I misspelled diameter :(
 }
+//want to ball to be "caught" inside scale, work on that
+if (this.y===300){
+    this.speed=0;
+}
+    else {
+        this.speed=random(10,20);
+    }
 }
 /*function displayBall (){
 
