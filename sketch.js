@@ -1,23 +1,34 @@
 var ball1;
-var ball2;
+//var ball2;
+//var balls=[];
+
 
 function setup() {
  createCanvas(600, 400);
 //ball= new ball();
 
-ball1= new DropBall(100, 20);// start ball at 100, with size of 20 pixels
-ball2= new DropBall(500,50);
+ball1= new Ball(0, 0, 20, 2);// start ball at 100, with size of 20 pixels
+//ball2= new DropBall(500,50);
+    
+    /*for (var i=0; i<50; i++){
+        balls[i]= new Ball(0, 0, 10, 1);
+    }*/
 }
 
 function draw() {
    
 background (155);
     drawScale();
-    ball1.move();
-    ball1.display();
-    ball2.move();
-    ball2.display();
-    print (this.y);
+    //for (var i=0; i<balls.length; i++){
+        ball1.move();
+        ball1.display();
+        ball1.checkEdges();
+    //}
+   // ball1.move();
+   // ball1.display();
+    //ball2.move();
+   // ball2.display();
+   // print (this.y);
     //this.y++;
    //ball.move();
     //ball.display();
@@ -37,13 +48,38 @@ function drawScale (){
     line (x*5, y, x*5+y, x*2); //right arm, right string
     arc(x, x*2, x, x, 0, PI, CHORD);//left balance
     arc (x*5, x*2, x, x, 0, PI, CHORD);//right balance
-    
-    
+        
 }
+class Ball{
+    constructor(x, y, r, speed){
+    this.r= r;
+    this.position= createVector(x, y);
+    this.velocity= createVector(0, speed);
+    this.topspeed=50;
+    this.acceleration= createVector(0, 0.01);
+    }
+  display(){
+          fill (255, 140, 101);
+          noStroke;
+          ellipse(this.position.x, this.position.y, this.r, this.r);
+      }
+    move (){
+        this.position.add(this.velocity);
+        this.velocity.limit(this.topspeed);
+        this.velocity.sub(this.acceleration);
+    }
+    checkEdges(){
+        if (this.position.y>height){
+            this.position.y=0;
+        }
+    }
+  } 
 
-function DropBall(tempX, tempDiamter){
+
+    
+/*function DropBall(tempX, tempDiameter){
    this.x=tempX; //x position must be passed
-    this.diameter=tempDiamter; //size must be passe
+    this.diameter=tempDiameteter; //size must be passe
     this.y= 0;//start at top
     this.speed= random (10,20); //pick a random speed
     
@@ -65,7 +101,7 @@ if (this.y===300){
     else {
         this.speed=random(10,20);
     }
-}
+}*/
 /*function displayBall (){
 
 ellipse(ballX, ballY, h,h);
