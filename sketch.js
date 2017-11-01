@@ -7,11 +7,11 @@ function setup() {
  createCanvas(600, 400);
 //ball= new ball();
 
-ball1= new Ball(0, 0, 20, 2);// start ball at 100, with size of 20 pixels
+ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
     
-    /*for (var i=0; i<50; i++){
-        balls[i]= new Ball(0, 0, 10, 1);
+/*    for (var x=0; x<width; x+=20){
+        balls.push(new Ball(x,0,10,1));
     }*/
 }
 
@@ -20,8 +20,13 @@ function draw() {
 background (155);
     drawScale();
     //for (var i=0; i<balls.length; i++){
+        //balls[i].move();
+        //balls[i].display();
+        //balls[i].checkEdges();
+    //}
         ball1.move();
         ball1.display();
+        ball1.grow();
         ball1.checkEdges();
     //}
    // ball1.move();
@@ -56,6 +61,7 @@ class Ball{
     this.position= createVector(x, y);
     this.velocity= createVector(0, speed);
     this.topspeed=50;
+    this.lowspeed= 1;
     this.acceleration= createVector(0, 0.01);
     }
   display(){
@@ -64,10 +70,21 @@ class Ball{
           ellipse(this.position.x, this.position.y, this.r, this.r);
       }
     move (){
-        this.position.add(this.velocity);
+        var v;
+        this.position.add(this.velocity);// add your velocity
         this.velocity.limit(this.topspeed);
-        this.velocity.sub(this.acceleration);
+        this.velocity.limit(this.lowspeed); //don't allow it to float backup
+        this.velocity.sub(this.acceleration);// as it falls, slow down
     }
+    grow (){// work on growing size/ weight
+        for (var i=0; i<3; i++){ //increment radius
+            this.r+=i;}
+            if (this.r>=width){
+                this.r-=i/2;
+            }
+                
+        }
+
     checkEdges(){
         if (this.position.y>height){
             this.position.y=0;
