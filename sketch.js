@@ -1,4 +1,8 @@
 var ball1;
+var r= 255;
+var g= 140;
+var b= 101;
+var squares= [];
 //var ball2;
 //var balls=[];
 
@@ -9,7 +13,9 @@ function setup() {
 
 ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
-    
+    for (var i =0; i<50; i++){
+        squares.push(new Square(width/2, height/2, 10));
+    }
 /*    for (var x=0; x<width; x+=20){
         balls.push(new Ball(x,0,10,1));
     }*/
@@ -24,10 +30,16 @@ background (155);
         //balls[i].display();
         //balls[i].checkEdges();
     //}
+    for (var i=0; i<squares.length; i++){
+            squares[i].display;
+        }
         ball1.move();
         ball1.display();
         ball1.grow();
+        ball1.redden();
         ball1.checkEdges();
+
+    
     //}
    // ball1.move();
    // ball1.display();
@@ -60,39 +72,68 @@ class Ball{
     this.r= r;
     this.position= createVector(x, y);
     this.velocity= createVector(0, speed);
-    this.topspeed=50;
+    this.topspeed=20;
     this.lowspeed= 1;
     this.acceleration= createVector(0, 0.01);
     }
+  
   display(){
-          fill (255, 140, 101);
+          fill (r, g, b);// use global variable for r, g, b
           noStroke;
           ellipse(this.position.x, this.position.y, this.r, this.r);
       }
-    move (){
+    move (){//add velocity to position 
         var v;
         this.position.add(this.velocity);// add your velocity
         this.velocity.limit(this.topspeed);
         this.velocity.limit(this.lowspeed); //don't allow it to float backup
         this.velocity.sub(this.acceleration);// as it falls, slow down
+        if ( this.position.y<50){ // if velocity becomes negative, make it positive
+            this.velocity.y=(this.velocity.y*-1)+1; // this makes for a really cool, ball bumping against top
+        }
     }
     grow (){// work on growing size/ weight
         for (var i=0; i<3; i++){ //increment radius
             this.r+=i;}
-            if (this.r>=width){
-                this.r-=i/2;
+            
+        }
+        redden(){// establish variable to intensify redness by taking away blue and green
+            for (var i=0; i<20; i+=0.5){
+                if (frameCount% 30=== 0){g= g-i/50; // slowly decrement G value to zero-- making object redder
+                print (g);}
+                if (frameCount % 60=== 0){b =b-i/25;}// slowly decrement B value to zero-- reddning
+
             }
-                
+
         }
 
-    checkEdges(){
-        if (this.position.y>height){
-            this.position.y=0;
+    checkEdges(){// if the ball gets to a certain diameter (ie. reaches edge), shrink it
+        for (var i=0; i<10; i++){ 
+        if (this.r> height*1.5){
+                this.r-=i/1.5;
+            }
+        //if (this.r*2>width){ // if this bottom of circle reaches edge, keep it there.
+            //this.position.y= height- this.r;
         }
     }
   } 
 
-
+class Square{
+constructor(tempX, tempY, tempH){
+    this.x= tempX;
+    this.y= tempY;
+    this.h= tempH;
+    //this.tl= this.h/2.75;
+    //this.tr= this.tl-=5;
+    //this.br= this.tr-=5;
+    //this.bl= this.br-=5;
+    //this.speed=1;
+}
+    display(){
+rect(this.x, this.y, this.h, this.h);
+fill (0);
+    }
+}
     
 /*function DropBall(tempX, tempDiameter){
    this.x=tempX; //x position must be passed
