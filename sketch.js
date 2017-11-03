@@ -2,7 +2,8 @@ var ball1;
 var r= 255;
 var g= 140;
 var b= 101;
-var squares= [];
+var drop1;
+
 //var ball2;
 //var balls=[];
 
@@ -13,13 +14,13 @@ function setup() {
 
 ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
-    for (var i =0; i<50; i++){
-        squares.push(new Square(width/2, height/2, 10));
+drop1= new Square (50);
+    
     }
 /*    for (var x=0; x<width; x+=20){
         balls.push(new Ball(x,0,10,1));
     }*/
-}
+
 
 function draw() {
    
@@ -30,15 +31,17 @@ background (155);
         //balls[i].display();
         //balls[i].checkEdges();
     //}
-    for (var i=0; i<squares.length; i++){
-            squares[i].display;
-        }
+
         ball1.move();
         ball1.display();
         ball1.grow();
         ball1.redden();
         ball1.checkEdges();
-
+if (frameCount>240){
+    drop1.update();
+    drop1.display();
+    drop1.checkEdges();  
+}
     
     //}
    // ball1.move();
@@ -88,7 +91,7 @@ class Ball{
         this.velocity.limit(this.topspeed);
         this.velocity.limit(this.lowspeed); //don't allow it to float backup
         this.velocity.sub(this.acceleration);// as it falls, slow down
-        if ( this.position.y<50){ // if velocity becomes negative, make it positive
+        if (this.position.y<50){ // if velocity becomes negative, make it positive
             this.velocity.y=(this.velocity.y*-1)+1; // this makes for a really cool, ball bumping against top
         }
     }
@@ -117,23 +120,45 @@ class Ball{
         }
     }
   } 
-
 class Square{
-constructor(tempX, tempY, tempH){
-    this.x= tempX;
-    this.y= tempY;
-    this.h= tempH;
-    //this.tl= this.h/2.75;
-    //this.tr= this.tl-=5;
-    //this.br= this.tr-=5;
-    //this.bl= this.br-=5;
-    //this.speed=1;
+constructor (r){
+    this.r= r; 
+    this.position= createVector (random(width), random(height));
+    this.velocity= createVector(random(-5, 2), random(-5,2));
+    this.acceleration= createVector (random(-0.3, 0.2), random (-0.2, 0.2));
+
 }
-    display(){
-rect(this.x, this.y, this.h, this.h);
-fill (0);
+update(){
+    this.position.add(this.velocity);
+    this.velocity.add(this.acceleration);
+}
+
+display(){
+    noStroke();
+    fill(0, 255, 197, 100);
+    rect(this.position.x, this.position.y, this.r, this.r);
+
+}
+checkEdges(){
+    if (this.position.x>width){
+        this.position.x=width;
+        this.velocity.x*=-1;
+    }
+    else if (this.position.x<0){
+        this.position.x= 0;
+        this.velocity.x*=-1;
+    }
+    if (this.position.y>height){
+        this.position.y=height;
+        this.velocity.y*=-1;
+    }
+    else if (this.position.y<0){
+        this.position.y=0;
+        this.velocity.y*=-1;
     }
 }
+}
+
     
 /*function DropBall(tempX, tempDiameter){
    this.x=tempX; //x position must be passed
