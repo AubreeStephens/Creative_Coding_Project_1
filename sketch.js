@@ -3,6 +3,8 @@ var r= 255;
 var g= 140;
 var b= 101;
 var drop1;
+var drop2;
+var bugs= [];
 
 //var ball2;
 //var balls=[];
@@ -10,11 +12,20 @@ var drop1;
 
 function setup() {
  createCanvas(600, 400);
+ //background(150);
 //ball= new ball();
 
 ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
 drop1= new Square (50);
+drop2= new Square (random(10, 30));
+
+for (var i= 0; i<33; i++){
+    var x= random(width);
+    var y= random(height);
+    var rad= i+2;
+    bugs= new Clutter(x, y, rad);
+}
     
     }
 /*    for (var x=0; x<width; x+=20){
@@ -40,9 +51,19 @@ background (155);
 if (frameCount>240){
     drop1.update();
     drop1.display();
-    drop1.checkEdges();  
+    //drop1.checkColor(); 
+    //drop1.update();
+    drop1.checkEdges(); 
 }
-    
+    if (frameCount>360){
+        drop2.update();
+        drop2.display();
+        drop2.checkEdges();
+    }
+
+  for (var i=0; i<bugs.length; i++){
+    bugs[i].display();
+  }  
     //}
    // ball1.move();
    // ball1.display();
@@ -156,9 +177,29 @@ checkEdges(){
         this.position.y=0;
         this.velocity.y*=-1;
     }
-}
+}checkColor(){
+    while (position.x<250 && position.y>200 || position.x>400 && position.y>200){
+        rect (this.position.x, this.position.y, this.r, this.r);
+        fill (0, 0, 255, 150);
+        //update();
+        //display();
+        //checkEdges();
+        }
+    
+    }
 }
 
+class Clutter{
+    constructor (tempX, tempY, tempR){
+        this.x= tempX;
+        this.y= tempY;
+        this.r= tempR;
+    }
+    display(){
+        ellipse(this.x, this.y, this.r, this.r);
+        fill (255);
+    }
+}
     
 /*function DropBall(tempX, tempDiameter){
    this.x=tempX; //x position must be passed
