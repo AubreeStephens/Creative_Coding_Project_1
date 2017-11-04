@@ -6,6 +6,8 @@ var drop1;
 var drop2;
 var bugs= [];
 var dim;
+var dot;
+var fill;
 
 //var ball2;
 //var balls=[];
@@ -16,6 +18,17 @@ function setup() {
  //background(150);
 //ball= new ball();
 
+//for (var i= 0; i<50; i++){
+  //  var l =i;
+    //var m =i;
+    //var n= i+2;
+   //bugs= new Clutter(l, m, n);
+//}
+    //bugs= new Clutter (l, m, n);
+for (var i=0; i< width; i++) {
+   dot= new Fallup (i, height, random(10,30), 0);
+}
+    
 ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
 drop1= new Square (50);
@@ -23,14 +36,8 @@ drop2= new Square (random(10, 30));
 dim= width/2;
 
 
-for (var i= 0; i<33; i++){
-    var x= random(width);
-    var y= random(height);
-    var rad= i+2;
-    bugs= new Clutter(x, y, rad);
 }
-    
-    }
+
 /*    for (var x=0; x<width; x+=20){
         balls.push(new Ball(x,0,10,1));
     }*/
@@ -51,6 +58,7 @@ background (155);
         ball1.grow();
         ball1.redden();
         ball1.checkEdges();
+
 if (frameCount>240){
     drop1.update();
     drop1.display();
@@ -63,11 +71,16 @@ if (frameCount>240){
         drop2.display();
         drop2.checkEdges();
     }
+
+    dot.show();
+    dot.moveup();
+    dot.checkforEdges();
+
     //drawGradient(width/2, height/2);
 
-  for (var i=0; i<bugs.length; i++){
-    bugs[i].display();
-  }  
+ // for (var i=0; i<bugs.length; i++){
+    //bugs[i].display();
+ // }  
     //}
    // ball1.move();
    // ball1.display();
@@ -97,18 +110,43 @@ function drawScale (){
 }
 
 class Clutter{
-    constructor (tempX, tempY, tempR){
-        this.x= tempX;
-        this.y= tempY;
-        this.r= tempR;
+    constructor (x, y, r){
+        this.x= x;
+        this.y= y;
+        this.r= r;
     }
     display(){
         ellipse(this.x, this.y, this.r, this.r);
-        fill (255);
+        fill (0,255,0);
+        noStroke(0);
     }
 }
+class Fallup{
+     constructor (x, y, r, c){
+        this.x= x; 
+        this.y= y; 
+        this.r= r;
+        this.fill= c;
+        this.speed= 5;
+     }
+     show(){
+        ellipse (this.x, this.y, this.r, this.r);
+        fill (this.fill);
+        noStroke();
+     }
+     moveup(){
+        this.y-=this.speed;
+     }
+     checkforEdges(){
+        if (this.y<0){
+            this.y= height;
+            this.x= random(width);  
+          }      
 
-function drawGradient(x, y){
+     }
+}
+
+/*function drawGradient(x, y){
     colorMode(HSB, 360,100,100);
     ellipseMode(RADIUS);
     var radius= dim/2;
@@ -118,11 +156,17 @@ function drawGradient(x, y){
     ellipse(x, y, r, r);
     h= (h+1)%360;
 }
-}
+}*/
 function mousePressed (){
     dim=width/2;
-    drawGradient(width/2, height/2);
+    //drawGradient(width/2, height/2);
 }
+function keyPressed(){
+    dot.show();
+    dot.moveup();
+    dot.checkforEdges();
+  }  
+
     
 /*function DropBall(tempX, tempDiameter){
    this.x=tempX; //x position must be passed
