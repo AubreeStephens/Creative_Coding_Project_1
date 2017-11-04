@@ -5,6 +5,7 @@ var b= 101;
 var drop1;
 var drop2;
 var bugs= [];
+var dim;
 
 //var ball2;
 //var balls=[];
@@ -19,6 +20,8 @@ ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
 drop1= new Square (50);
 drop2= new Square (random(10, 30));
+dim= width/2;
+
 
 for (var i= 0; i<33; i++){
     var x= random(width);
@@ -60,6 +63,7 @@ if (frameCount>240){
         drop2.display();
         drop2.checkEdges();
     }
+    //drawGradient(width/2, height/2);
 
   for (var i=0; i<bugs.length; i++){
     bugs[i].display();
@@ -91,103 +95,6 @@ function drawScale (){
     arc (x*5, x*2, x, x, 0, PI, CHORD);//right balance
         
 }
-class Ball{
-    constructor(x, y, r, speed){
-    this.r= r;
-    this.position= createVector(x, y);
-    this.velocity= createVector(0, speed);
-    this.topspeed=20;
-    this.lowspeed= 1;
-    this.acceleration= createVector(0, 0.01);
-    }
-  
-  display(){
-          fill (r, g, b);// use global variable for r, g, b
-          noStroke;
-          ellipse(this.position.x, this.position.y, this.r, this.r);
-      }
-    move (){//add velocity to position 
-        var v;
-        this.position.add(this.velocity);// add your velocity
-        this.velocity.limit(this.topspeed);
-        this.velocity.limit(this.lowspeed); //don't allow it to float backup
-        this.velocity.sub(this.acceleration);// as it falls, slow down
-        if (this.position.y<50){ // if velocity becomes negative, make it positive
-            this.velocity.y=(this.velocity.y*-1)+1; // this makes for a really cool, ball bumping against top
-        }
-    }
-    grow (){// work on growing size/ weight
-        for (var i=0; i<3; i++){ //increment radius
-            this.r+=i;}
-            
-        }
-        redden(){// establish variable to intensify redness by taking away blue and green
-            for (var i=0; i<20; i+=0.5){
-                if (frameCount% 30=== 0){g= g-i/50; // slowly decrement G value to zero-- making object redder
-                print (g);}
-                if (frameCount % 60=== 0){b =b-i/25;}// slowly decrement B value to zero-- reddning
-
-            }
-
-        }
-
-    checkEdges(){// if the ball gets to a certain diameter (ie. reaches edge), shrink it
-        for (var i=0; i<10; i++){ 
-        if (this.r> height*1.5){
-                this.r-=i/1.5;
-            }
-        //if (this.r*2>width){ // if this bottom of circle reaches edge, keep it there.
-            //this.position.y= height- this.r;
-        }
-    }
-  } 
-class Square{
-constructor (r){
-    this.r= r; 
-    this.position= createVector (random(width), random(height));
-    this.velocity= createVector(random(-5, 2), random(-5,2));
-    this.acceleration= createVector (random(-0.3, 0.2), random (-0.2, 0.2));
-
-}
-update(){
-    this.position.add(this.velocity);
-    this.velocity.add(this.acceleration);
-}
-
-display(){
-    noStroke();
-    fill(0, 255, 197, 100);
-    rect(this.position.x, this.position.y, this.r, this.r);
-
-}
-checkEdges(){
-    if (this.position.x>width){
-        this.position.x=width;
-        this.velocity.x*=-1;
-    }
-    else if (this.position.x<0){
-        this.position.x= 0;
-        this.velocity.x*=-1;
-    }
-    if (this.position.y>height){
-        this.position.y=height;
-        this.velocity.y*=-1;
-    }
-    else if (this.position.y<0){
-        this.position.y=0;
-        this.velocity.y*=-1;
-    }
-}checkColor(){
-    while (position.x<250 && position.y>200 || position.x>400 && position.y>200){
-        rect (this.position.x, this.position.y, this.r, this.r);
-        fill (0, 0, 255, 150);
-        //update();
-        //display();
-        //checkEdges();
-        }
-    
-    }
-}
 
 class Clutter{
     constructor (tempX, tempY, tempR){
@@ -199,6 +106,22 @@ class Clutter{
         ellipse(this.x, this.y, this.r, this.r);
         fill (255);
     }
+}
+
+function drawGradient(x, y){
+    colorMode(HSB, 360,100,100);
+    ellipseMode(RADIUS);
+    var radius= dim/2;
+    var h= random(0,360);
+    for (var r= radius; r>0; --r){
+    fill (h, 90, 90);
+    ellipse(x, y, r, r);
+    h= (h+1)%360;
+}
+}
+function mousePressed (){
+    dim=width/2;
+    drawGradient(width/2, height/2);
 }
     
 /*function DropBall(tempX, tempDiameter){
