@@ -25,15 +25,15 @@ function setup() {
    //bugs= new Clutter(l, m, n);
 //}
     //bugs= new Clutter (l, m, n);
-for (var i=0; i< width; i++) {
-   dot= new Fallup (i, height, random(10,30), 0);
-}
     
 ball1= new Ball(width/2, 0, 20, 2);// start ball at 100, with size of 20 pixels
 //ball2= new DropBall(500,50);
-drop1= new Square (50);
-drop2= new Square (random(10, 30));
-dim= width/2;
+drop1= new Square (50, 25);
+drop2= new Square (random(10, 30), 125);
+
+for (var i=0; i< width; i++) {
+   dot= new Fallup (i, height, 40, 255);
+}
 
 
 }
@@ -74,6 +74,8 @@ if (frameCount>240){
 
     dot.show();
     dot.moveup();
+    dot.shrink();
+    dot.checkSize();
     dot.checkforEdges();
 
     //drawGradient(width/2, height/2);
@@ -109,7 +111,7 @@ function drawScale (){
         
 }
 
-class Clutter{
+/*class Clutter{
     constructor (x, y, r){
         this.x= x;
         this.y= y;
@@ -120,23 +122,32 @@ class Clutter{
         fill (0,255,0);
         noStroke(0);
     }
-}
+}*/
 class Fallup{
      constructor (x, y, r, c){
         this.x= x; 
         this.y= y; 
-        this.r= r;
-        this.fill= c;
+        this.rad= r;
         this.speed= 5;
+        this.fill= c;
      }
      show(){
-        ellipse (this.x, this.y, this.r, this.r);
-        fill (this.fill);
-        noStroke();
+        ellipse (this.x, this.y, this.rad, this.rad);
+        fill (0, 0, this.fill, 150);
      }
      moveup(){
         this.y-=this.speed;
      }
+     shrink(){
+        this.rad-= this.rad/100;
+     }
+
+    checkSize(){ //makes dot pop like a kernel
+        if (this.rad<10){
+            this.rad=30;
+            this.rad+= this.rad/10;
+        }
+    }
      checkforEdges(){
         if (this.y<0){
             this.y= height;

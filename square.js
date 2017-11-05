@@ -1,10 +1,10 @@
 class Square{
-constructor (r){
+constructor (r, c){
     this.r= r; 
     this.position= createVector (random(width), random(height));
     this.velocity= createVector(random(-5, 2), random(-5,2));
     this.acceleration= createVector (random(-0.3, 0.2), random (-0.2, 0.2));
-
+    this.fill= c;
 }
 update(){
     this.position.add(this.velocity);
@@ -13,7 +13,7 @@ update(){
 
 display(){
     noStroke();
-    fill(0, 255, 197, 100);
+    fill(this.fill/25, this.fill*2, this.fill, 100);
     rect(this.position.x, this.position.y, this.r, this.r);
 
 }
@@ -34,7 +34,7 @@ checkEdges(){
         this.position.y=0;
         this.velocity.y*=-1;
     }
-}checkColor(){
+}/*checkColor(){
     while (position.x<250 && position.y>200 || position.x>400 && position.y>200){
         rect (this.position.x, this.position.y, this.r, this.r);
         fill (0, 0, 255, 150);
@@ -43,5 +43,5 @@ checkEdges(){
         //checkEdges();
         }
     
-    }
+    }*/
 }
