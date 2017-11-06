@@ -1,23 +1,23 @@
 class Square{
 constructor (r, c){
     this.r= r; 
-    this.position= createVector (random(width), random(height));
-    this.velocity= createVector(random(-5, 2), random(-5,2));
-    this.acceleration= createVector (random(-0.3, 0.2), random (-0.2, 0.2));
+    this.position= createVector (random(width), random(height)); // random position
+    this.velocity= createVector(random(-5, 2), random(-5,2)); //random velocity betwen given values
+    this.acceleration= createVector (random(-0.3, 0.2), random(-0.2, 0.2)); //random acceleration between given values
     this.fill= c;
 }
-update(){
+update(){// increase speed and therefore position by some acceleration
     this.position.add(this.velocity);
     this.velocity.add(this.acceleration);
 }
 
-display(){
+display(){// square
     noStroke();
     fill(this.fill/25, this.fill*2, this.fill, 100);
     rect(this.position.x, this.position.y, this.r, this.r);
 
 }
-checkEdges(){
+checkEdges(){ //if square hits a corner, redirect its velocity
     if (this.position.x>width){
         this.position.x=width;
         this.velocity.x*=-1;

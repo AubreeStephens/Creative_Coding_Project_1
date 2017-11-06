@@ -1,14 +1,14 @@
 class Ball{
     constructor(x, y, r, speed){
     this.r= r;
-    this.position= createVector(x, y);
-    this.velocity= createVector(0, speed);
-    this.topspeed=20;
-    this.lowspeed= 1;
-    this.acceleration= createVector(0, 0.01);
+    this.position= createVector(x, y); //x, y positions are parameters
+    this.velocity= createVector(0, speed);// on y-speed
+    this.topspeed=20; // max speed=20
+    this.lowspeed= 1;// not sure if this line works- incorrect syntax?
+    this.acceleration= createVector(0, 0.01); //small y acceleration
     }
   
-  display(){
+  display(){// circle
           fill (r, g, b);// use global variable for r, g, b
           noStroke;
           ellipse(this.position.x, this.position.y, this.r, this.r);
