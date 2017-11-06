@@ -1,16 +1,16 @@
 class Ball{
-    constructor(x, y, r, speed){
+    constructor(x, y, r, speed,c){
     this.r= r;
     this.position= createVector(x, y); //x, y positions are parameters
     this.velocity= createVector(0, speed);// on y-speed
     this.topspeed=20; // max speed=20
     this.lowspeed= 1;// not sure if this line works- incorrect syntax?
     this.acceleration= createVector(0, 0.01); //small y acceleration
+    this.color= c;
     }
   
   display(){// circle
-          fill (r, g, b);// use global variable for r, g, b
-          noStroke;
+          fill (r-this.color, g-this.color, b-this.color,200);// use global variable for r, g, b
           ellipse(this.position.x, this.position.y, this.r, this.r);
       }
     move (){//add velocity to position 
@@ -36,6 +36,14 @@ class Ball{
 
             }
 
+        }
+        shrink(){// decrease size of ball2
+           this.r-=this.r/50;
+        }
+        checkSize(){// as ball shrinks, reset
+            if (this.r<20){
+                this.r*=2.5;
+            }
         }
 
     checkEdges(){// if the ball gets to a certain diameter (ie. reaches edge), shrink it
