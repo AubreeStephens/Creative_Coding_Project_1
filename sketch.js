@@ -10,6 +10,7 @@ var ball2;
 var dot2;
 var drop3;
 var ball3;
+var dots= [];
 
 
 function setup() {
@@ -27,6 +28,9 @@ ball2=new Ball(random(0,width/2), random(100), random(10,15),6, 140);
 dot2= new Fallup(random(width), random(height), random(50,100), random(255));
 drop3= new Square (random(100,200), random(255));
 ball3= new Ball(random(width/2, width), height/2, 75, -2, 255);
+for (var d=0; d<10; d++){ //setting up for array of dots
+    dots[d]= new Fallup (d, width/2, 25, 100);
+}
 }
 
 
@@ -93,6 +97,13 @@ if (frameCount>240){
         ball3.checkSize();
         //ball3.grow();
     }
+if (frameCount%2===0){ //allow for strobe-like charachteristic of dots
+for (var d=0; d<dots.length; d++){
+    dots[d].show();
+    dots[d].moveup();
+    dots[d].checkforEdges();
+}
+}
 
 }
 //draw stagnant scale
