@@ -1,16 +1,18 @@
 class Ball{
-    constructor(x, y, r, speed,c){
+    constructor(x, y, r, speed, red, green, blue){
     this.r= r;
     this.position= createVector(x, y); //x, y positions are parameters
     this.velocity= createVector(0, speed);// on y-speed
     this.topspeed=20; // max speed=20
     this.lowspeed= 1;// not sure if this line works- incorrect syntax?
     this.acceleration= createVector(0, 0.01); //small y acceleration
-    this.color= c;
+    this.red= red;
+    this.green= green;
+    this.blue= blue;
     }
   
   display(){// circle
-          fill (r-this.color, g-this.color, b-this.color,200);// use global variable for r, g, b
+          fill (this.red, this.green, this.blue,200);// use global variable for r, g, b
           ellipse(this.position.x, this.position.y, this.r, this.r);
       }
     move (){//add velocity to position 
@@ -30,13 +32,34 @@ class Ball{
         }
         redden(){// establish variable to intensify redness by taking away blue and green
             for (var i=0; i<20; i+=0.5){
-                if (frameCount% 30=== 0){g= g-i/50; // slowly decrement G value to zero-- making object redder
+                if (frameCount% 30=== 0){this.green= this.green-i/50; // slowly decrement G value to zero-- making object redder
                 print (g);}
-                if (frameCount % 60=== 0){b =b-i/25;}// slowly decrement B value to zero-- reddning
+                if (frameCount % 60=== 0){this.blue =this.blue-i/25;}// slowly decrement B value to zero-- reddning
 
             }
 
         }
+        reverseColor(){// new code
+            if (this.red>= 255){
+                for (var i=0; i<30; i+=0.6){
+                    this.red-=i/20;}
+                }
+            else if (this.red<0){
+                this.red=- this.red
+                this.red++;
+            }
+            for (var j=0; j<20; j+=0.5){
+              if (this.green<0){ 
+              this.green+=j/50;  
+            }
+        
+}
+            for (var k=0; k<30; k+=0.5){
+                if (this.blue<0){
+                    this.blue+=-k;
+                }
+            }
+}
         shrink(){// decrease size of ball2
            this.r-=this.r/50;
         }
