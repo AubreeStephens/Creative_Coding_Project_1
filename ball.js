@@ -1,5 +1,5 @@
 class Ball{
-    constructor(x, y, r, speed, red, green, blue){
+    constructor(x, y, r, speed, red, green, blue, opacity){
     this.r= r;
     this.position= createVector(x, y); //x, y positions are parameters
     this.velocity= createVector(0, speed);// on y-speed
@@ -9,10 +9,11 @@ class Ball{
     this.red= red;
     this.green= green;
     this.blue= blue;
+    this.opacity= opacity;
     }
   
   display(){// circle
-          fill (this.red, this.green, this.blue,200);// use global variable for r, g, b
+          fill (this.red, this.green, this.blue, this.opacity);// use global variable for r, g, b
           ellipse(this.position.x, this.position.y, this.r, this.r);
       }
     move (){//add velocity to position 
@@ -40,7 +41,7 @@ class Ball{
 
         }
         reverseColor(){// new code
-            if (this.red>= 255){
+            if (this.red>= 255 && frameCount>500){
                 for (var i=0; i<30; i+=0.6){
                     this.red-=i/20;}
                 }
@@ -66,6 +67,12 @@ class Ball{
         checkSize(){// as ball shrinks, reset
             if (this.r<20){
                 this.r*=2.5;
+            }
+        }
+
+        opacity(){
+            for (var i=0; i<50; i++){
+            this.opacity+=i;
             }
         }
 

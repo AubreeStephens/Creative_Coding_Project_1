@@ -16,13 +16,22 @@ var xoff2=0.01;
 var xincrement= 0.01;
 var yoff=0.0;
 var yincrement= 0.02;
+var ball4;
+var ball5;
+var ball6;
 
 // Obstrcutions: one shape, vary scale within one shape, different color/size balls dropping opacity filling screen, check edges where ball randomly pkcks different location, move scale in background
 function setup() {
 
 createCanvas(600, 400);
     
-ball1= new Ball(width/2, 0, 20, 2, 255, 140, 101);// start ball at 100, with size of 20 pixels
+ball1= new Ball(width/2, 0, 20, 2, 255, 140, 101, 175);// start ball at 100, with size of 20 pixels
+ball2= new Ball (width/2, 0, 10, 3, 101, 255, 220, 170);
+ball3= new Ball(width/2, random(height), 5, 5, 217, 25, 175);
+ball4= new Ball(width/2, random(height), 12, 8, 174, 255, 170);
+ball5= new Ball (width/2, random(height), random(5,20), 6, 255, 243, 31, 185);
+ball6= new Ball(width/2, 0, 20, 2, 255, 140, 101, 200);
+
 
 for (var d=0; d<20; d++){ //setting up for array of dots
     dots[d]= new Jiggle (d, 0, 20+d, 100);
@@ -61,20 +70,87 @@ rotateScale();
         ball1.redden();
         ball1.reverseColor();
         ball1.checkEdges();
+        if (frameCount>500){
+            ball1.shrink();
+        }
+        
+
+        if (frameCount>800){
+            ball1.grow();
+            ball1.reverseColor();
+
+            ball2.move();
+            ball2.display();
+            ball2.grow();
+            ball2.checkEdges();
+            //ball2.reverseColor();
+            if(frameCount>1400){
+                ball2.shrink();
+            }
+        }
+
+    if (frameCount>1200){
+        ball3.display();
+        ball3.move();
+        ball3.checkEdges();
+        if (frameCount>1400){
+            ball3.grow();
+            ball4.display();
+            ball4.move();
+            ball4.checkEdges();
+        }
+        if (frameCount>1500){
+            ball3.shrink();
+            ball4.grow();
+            //ball2.redden();
+        }
+    }
+    if (frameCount>1800){
+        ball4.shrink();
+        ball5.display();
+        //ball3.redden();
+    }
+    if (frameCount>2000){
+        //ball4.redden();
+        ball5.move();
+        ball5.grow();
+        ball5.shrink();
+    }
+    if (frameCount>2100){
+        ball2.grow();
+    }
+    if (frameCount>2200){
+        ball3.grow();
+    }
+    if (frameCount>2300){
+        ball4.grow();
+    }
+    if (frameCount>2400){
+        ball5.grow();
+        ball6.display()
+;        //ball1.display();
+    }
+    if (frameCount>2500){
+        //ball6.display();
+        ball6.grow();
+        ball6.redden();
+        //ball6.opacity();
+    }
 
 
 
-var n= noise(xoff1)*width;
-xoff1+=xincrement;
-var o= noise(xoff2)* width;
-xoff2+=xincrement;
-var m= noise(yoff)*height;
-yoff+=yincrement;
+var n= noise(0.1*frameCount/10)*width;// new addition
+//xoff1+=xincrement;
+//var o= noise(xoff2)* width;
+//xoff2+=xincrement;
+var m= noise(0.3*frameCount/10)*height;
+//yoff+=yincrement;
 
 fill(0,255,0,100);
-ellipse (n, m, 60, 60);
+ellipse (n*0.2, m, 60, 60);
 fill (0,0,255, 100);
-ellipse(o, m*0.1, 40, 40);    
+ellipse(n, m/12, 40, 40);
+
 
 
 
